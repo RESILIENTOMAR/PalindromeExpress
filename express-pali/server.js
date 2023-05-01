@@ -17,7 +17,16 @@ MongoClient.connect('mongodb+srv://teixeiraomar1:XmEB0kkCYTl5XVa8@cluster0mar.d1
         app.use(express.static('public'))
         app.use(bodyParser.json())
 
-        app.get('/api', (req, res) => {
+        app.get('/public/style.css', function (req, res) {
+            res.type('text/css');
+            res.sendFile(__dirname + '/public/style.css');
+        });
+        app.get('/public/main.js', function (req, res) {
+            res.type('text/javascript');
+            res.sendFile(__dirname + '/public/main.js');
+        });
+
+        app.get('/test', (req, res) => {
 
             if (req.query.input) {
                 let string = req.query.input.trim()
@@ -66,7 +75,7 @@ MongoClient.connect('mongodb+srv://teixeiraomar1:XmEB0kkCYTl5XVa8@cluster0mar.d1
             db.collection('attempts')
                 .insertOne(req.body)
                 .then(result => {
-                    res.redirect('/palindrome')
+                    setTimeout(() => { res.redirect('/palindrome') }, 1000)
 
                 })
                 .catch(error => console.error(error))
@@ -79,6 +88,8 @@ MongoClient.connect('mongodb+srv://teixeiraomar1:XmEB0kkCYTl5XVa8@cluster0mar.d1
                 res.send('Deleted!')
             })
         })
+
+
 
         app.listen(1992, () => console.log("App Is Running on Port 1992"))
 
